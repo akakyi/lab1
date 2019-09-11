@@ -1,4 +1,4 @@
-package org.lab1.back;
+package org.lab.back;
 
 /**
  * Hello world!
