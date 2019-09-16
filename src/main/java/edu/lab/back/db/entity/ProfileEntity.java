@@ -1,4 +1,4 @@
-package org.lab.back.db.entity;
+package edu.lab.back.db.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,9 +6,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +21,8 @@ import javax.persistence.Table;
 public class ProfileEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_generator")
+    @SequenceGenerator(name = "profile_generator", sequenceName = "profile_id_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "name")

@@ -1,6 +1,6 @@
-create database fomin_6133;
+create database fomin_kiyko_6133;
 
-\c fomin_6133;
+\c fomin_kiyko_6133;
 
 create sequence city_id_sequence;
 
