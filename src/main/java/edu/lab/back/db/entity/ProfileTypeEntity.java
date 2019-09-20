@@ -25,4 +25,6 @@ public class ProfileTypeEntity {
     @Column(name = "name")
     private String name;
 
+
+
 }

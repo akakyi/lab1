@@ -1,7 +1,8 @@
 package edu.lab.back.db.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "profile")
-@Data
+//@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class ProfileEntity {
 
@@ -42,4 +45,15 @@ public class ProfileEntity {
     @Column(name = "class_level")
     private String classLevel;
 
+    @Override
+    public String toString() {
+        return "ProfileEntity{" +
+            "id=" + this.id +
+            ", name='" + this.name + '\'' +
+            ", age=" + this.age +
+            ", profileType=" + this.profileType.toString() +
+            ", school=" + this.school.getName() +
+            ", classLevel='" + this.classLevel + '\'' +
+            '}';
+    }
 }

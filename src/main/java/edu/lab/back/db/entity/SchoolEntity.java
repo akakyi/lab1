@@ -1,7 +1,8 @@
 package edu.lab.back.db.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +19,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "school")
-@Data
+//@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class SchoolEntity {
 
@@ -34,7 +37,22 @@ public class SchoolEntity {
     @JoinColumn(name = "city_id")
     private CityEntity city;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "school")
     private List<ProfileEntity> profiles;
 
+    @Override
+    public String toString() {
+        final String profilesStr = this.profiles
+            .stream()
+            .map(p -> p.getId().toString())
+            .reduce((s, p) -> s + ", " + p)
+            .orElse("");
+
+        return "SchoolEntity{" +
+            "id=" + this.id +
+            ", name='" + this.name + '\'' +
+            ", city_name=" + this.city.getName() +
+            ", profiles_ids=" + profilesStr +
+            '}';
+    }
 }
