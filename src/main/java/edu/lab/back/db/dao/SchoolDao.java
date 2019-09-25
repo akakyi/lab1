@@ -2,15 +2,10 @@ package edu.lab.back.db.dao;
 
 import edu.lab.back.db.entity.SchoolEntity;
 
-public interface SchoolDao {
+import java.util.List;
 
-    SchoolEntity getById(Long id);
+public interface SchoolDao extends BaseCrudDao<SchoolEntity, Long> {
 
-    SchoolEntity deleteById(Long id);
-
-    SchoolEntity update(SchoolEntity city);
-
-    SchoolEntity add(SchoolEntity city);
-
+    List<SchoolEntity> getByIds(List<Long> ids);
 
 }

@@ -22,7 +22,7 @@ public class SchoolCrudService {
 
     @Transactional
     public String getById(final Long id) {
-        final SchoolEntity school = this.schoolDao.getById(id);
+        final SchoolEntity school = this.schoolDao.getById(id, SchoolEntity.class);
         return school.toString();
     }
 

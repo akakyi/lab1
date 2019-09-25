@@ -1,7 +1,9 @@
 package edu.lab.back.db.entity;
 
+import edu.lab.back.json.CityJson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -48,5 +50,14 @@ public class CityEntity {
             ", name='" + this.name + '\'' +
             ", schools_ids=" + schoolsString +
             '}';
+    }
+
+    public static CityEntity convert(@NonNull final CityJson cityJson) {
+        final CityEntity entity = new CityEntity();
+        entity.setName(cityJson.getName());
+        entity.setId(cityJson.getId());
+        //TODO schools
+
+        return entity;
     }
 }

@@ -10,29 +10,13 @@ import javax.persistence.PersistenceContext;
 
 @Stateless
 @NoArgsConstructor
-public class CityDaoImpl implements CityDao {
+public class CityDaoImpl extends BaseCrudDaoImpl<CityEntity, Long> implements CityDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public CityEntity getById(final Long id) {
-        final CityEntity city = this.entityManager.find(CityEntity.class, id);
-        return city;
-    }
-
-    public CityEntity deleteById(final Long id) {
-        final CityEntity city = this.getById(id);
-        this.entityManager.remove(city);
-        return city;
-    }
-
-    public CityEntity update(final CityEntity city) {
-        this.entityManager.persist(city);
-        return city;
-    }
-
-    public CityEntity add(final CityEntity city) {
-        this.entityManager.persist(city);
-        return city;
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.entityManager;
     }
 }

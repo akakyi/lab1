@@ -3,35 +3,27 @@ package edu.lab.back.db.dao.implementations.postgres;
 import edu.lab.back.db.dao.SchoolDao;
 import edu.lab.back.db.entity.SchoolEntity;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Stateless
 @NoArgsConstructor
-public class SchoolDaoImpl implements SchoolDao {
+public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implements SchoolDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SchoolEntity getById(final Long id) {
-        return entityManager.find(SchoolEntity.class, id);
+    @Override
+    public List<SchoolEntity> getByIds(@NonNull final List<Long> ids) {
+        return null;
     }
 
-    public SchoolEntity deleteById(final Long id) {
-        final SchoolEntity school = this.getById(id);
-        this.entityManager.remove(school);
-        return school;
-    }
-
-    public SchoolEntity update(final SchoolEntity schoolEntity) {
-        this.entityManager.persist(schoolEntity);
-        return schoolEntity;
-    }
-
-    public SchoolEntity add(final SchoolEntity schoolEntity) {
-        this.entityManager.persist(schoolEntity);
-        return schoolEntity;
+    @Override
+    protected EntityManager getEntityManager() {
+        return this.entityManager;
     }
 }
