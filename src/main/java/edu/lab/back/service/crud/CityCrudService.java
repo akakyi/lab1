@@ -25,8 +25,9 @@ public class CityCrudService {
     private SchoolDao schoolDao;
 
     @Inject
-    public CityCrudService(@NonNull final CityDao cityDao) {
+    public CityCrudService(@NonNull final CityDao cityDao, @NonNull final SchoolDao schoolDao) {
         this.cityDao = cityDao;
+        this.schoolDao = schoolDao;
     }
 
     public CityJson getById(@NonNull final String idString) {

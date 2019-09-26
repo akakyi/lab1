@@ -4,22 +4,20 @@ import edu.lab.back.json.CityJson;
 import edu.lab.back.service.crud.CityCrudService;
 import edu.lab.back.util.UrlPatterns;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {
     CityController.CONTROLLER_BASE_URL
 })
 @NoArgsConstructor
-public class CityController extends HttpServlet {
+public class CityController extends BaseHttpServlet {
 
     public final static String CONTROLLER_BASE_URL = UrlPatterns.CRUD_BASE_URL + "/city";
 
@@ -58,7 +56,8 @@ public class CityController extends HttpServlet {
             this.writeStringResult(city.toJsonString(), resp);
             return;
         } else {
-
+            final List<CityJson> allCities = this.cityCrudService.getAll();
+            this.writeResult(allCities, resp);
         }
     }
 
@@ -68,6 +67,9 @@ public class CityController extends HttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
+        final CityJson cityJson = this.readRequest(req, CityJson.class);
+        final CityJson saved = this.cityCrudService.save(cityJson);
+        this.writeStringResult(saved.toJsonString(), resp);
     }
 
     @Override
@@ -86,16 +88,6 @@ public class CityController extends HttpServlet {
     ) throws ServletException, IOException
     {
         super.doDelete(req, resp);
-    }
-
-    private void writeStringResult(
-        @NonNull final String res,
-        @NonNull final HttpServletResponse response
-    ) throws IOException
-    {
-        final ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.print(res);
-        outputStream.close();
     }
 
 }
