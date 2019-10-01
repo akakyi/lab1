@@ -27,12 +27,14 @@ public class SchoolJson implements JsonPojo {
         result.setId(schoolEntity.getId());
         result.setName(schoolEntity.getName());
 
-        final List<ProfileJson> profilesJson = schoolEntity.getProfiles()
-            .stream()
-            .map(ProfileJson::convert)
-            .collect(Collectors.toList());
+        if (schoolEntity.getProfiles() != null) {
+            final List<ProfileJson> profilesJson = schoolEntity.getProfiles()
+                .stream()
+                .map(ProfileJson::convert)
+                .collect(Collectors.toList());
 
-        result.setProfiles(profilesJson);
+            result.setProfiles(profilesJson);
+        }
 
         return result;
     }

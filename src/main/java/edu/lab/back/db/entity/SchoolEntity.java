@@ -42,11 +42,14 @@ public class SchoolEntity {
 
     @Override
     public String toString() {
-        final String profilesStr = this.profiles
-            .stream()
-            .map(p -> p.getId().toString())
-            .reduce((s, p) -> s + ", " + p)
-            .orElse("");
+        String profilesStr = "";
+        if (this.profiles != null) {
+            profilesStr = this.profiles
+                .stream()
+                .map(p -> p.getId().toString())
+                .reduce((s, p) -> s + ", " + p)
+                .orElse("");
+        }
 
         return "SchoolEntity{" +
             "id=" + this.id +

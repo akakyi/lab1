@@ -78,7 +78,9 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        super.doPut(req, resp);
+        final CityJson cityJson = this.readRequest(req, CityJson.class);
+        final CityJson updated = this.cityCrudService.update(cityJson);
+        this.writeStringResult(updated.toJsonString(), resp);
     }
 
     @Override
@@ -87,7 +89,9 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        super.doDelete(req, resp);
+        final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
+        final CityJson deleted = this.cityCrudService.deleteById(idString);
+        this.writeStringResult(deleted.toJsonString(), resp);
     }
 
 }

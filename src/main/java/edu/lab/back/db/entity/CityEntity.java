@@ -39,11 +39,13 @@ public class CityEntity {
 
     @Override
     public String toString() {
-        final String schoolsString = this.schools
-            .stream()
-            .map(s -> s.getId().toString())
-            .reduce((r, s) -> r + ", " + s)
-            .orElse("");
+        String schoolsString = "";
+        if (this.schools != null) {
+            schoolsString = this.schools.stream()
+                .map(s -> s.getId().toString())
+                .reduce((r, s) -> r + ", " + s)
+                .orElse("");
+        }
 
         return "CityEntity{" +
             "id=" + this.id +

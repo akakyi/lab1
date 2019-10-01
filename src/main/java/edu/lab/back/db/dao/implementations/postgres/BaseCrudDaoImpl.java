@@ -40,13 +40,14 @@ public abstract class BaseCrudDaoImpl<EntityType, IdType> implements BaseCrudDao
 
     @Override
     public EntityType update(final EntityType city) {
-        this.getEntityManager().persist(city);
+        this.getEntityManager().merge(city);
         return city;
     }
 
     @Override
-    public EntityType add(final EntityType city) {
-        this.getEntityManager().persist(city);
+    public EntityType save(final EntityType city) {
+        final EntityManager entityManager = this.getEntityManager();
+        entityManager.persist(city);
         return city;
     }
     

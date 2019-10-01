@@ -27,12 +27,14 @@ public class CityJson implements JsonPojo {
         cityJson.setId(cityEntity.getId());
         cityJson.setName(cityEntity.getName());
 
-        final List<SchoolJson> schools = cityEntity.getSchools()
-            .stream()
-            .map(SchoolJson::convert)
-            .collect(Collectors.toList());
+        if (cityEntity.getSchools() != null) {
+            final List<SchoolJson> schools = cityEntity.getSchools()
+                .stream()
+                .map(SchoolJson::convert)
+                .collect(Collectors.toList());
 
-        cityJson.setSchools(schools);
+            cityJson.setSchools(schools);
+        }
 
         return cityJson;
     }

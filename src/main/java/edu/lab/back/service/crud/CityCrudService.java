@@ -12,12 +12,13 @@ import lombok.NonNull;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
 @NoArgsConstructor
-@Transactional
+@Transactional(rollbackOn = Exception.class)
 public class CityCrudService {
 
     private CityDao cityDao;
@@ -48,7 +49,8 @@ public class CityCrudService {
         return allCitiesJson;
     }
 
-    public CityJson deleteById(@NonNull final Long id) {
+    public CityJson deleteById(@NonNull final String idString) {
+        final Long id = this.getId(idString);
         final CityEntity deletedEntity = this.cityDao.deleteById(id, CityEntity.class);
         final CityJson deletedJson = CityJson.convert(deletedEntity);
 
@@ -57,7 +59,10 @@ public class CityCrudService {
 
     public CityJson save(@NonNull final CityJson cityJson) {
         final CityEntity cityEntity = CityEntity.convert(cityJson);
-        final CityEntity saved = this.cityDao.add(cityEntity);
+        final List<SchoolEntity> schools = this.getSchools(cityJson);
+        cityEntity.setSchools(schools);
+
+        final CityEntity saved = this.cityDao.save(cityEntity);
         final CityJson result = CityJson.convert(saved);
 
         return result;
@@ -65,18 +70,14 @@ public class CityCrudService {
 
     public CityJson update(@NonNull final CityJson cityJson) {
         final Long cityId = cityJson.getId();
-        final CityEntity entity = this.cityDao.deleteById(cityId, CityEntity.class);
+        final CityEntity entity = this.cityDao.getById(cityId, CityEntity.class);
 
         entity.setName(cityJson.getName());
 
-        final List<Long> schoolsIds = cityJson.getSchools()
-            .stream()
-            .map(SchoolJson::getId)
-            .collect(Collectors.toList());
-        final List<SchoolEntity> schools = this.schoolDao.getByIds(schoolsIds);
+        final List<SchoolEntity> schools = this.getSchools(cityJson);
         entity.setSchools(schools);
 
-        final CityEntity added = this.cityDao.add(entity);
+        final CityEntity added = this.cityDao.update(entity);
         final CityJson result = CityJson.convert(added);
 
         return result;
@@ -85,6 +86,19 @@ public class CityCrudService {
     private Long getId(@NonNull final String idString) {
         final long id = Long.parseLong(idString);
         return id;
+    }
+
+    private List<SchoolEntity> getSchools(@NonNull final CityJson cityJson) {
+        if (cityJson.getSchools() == null) {
+            return new ArrayList<>();
+        }
+        final List<Long> schoolsIds = cityJson.getSchools()
+            .stream()
+            .map(SchoolJson::getId)
+            .collect(Collectors.toList());
+        final List<SchoolEntity> schools = this.schoolDao.getByIds(schoolsIds);
+
+        return schools;
     }
 
 }

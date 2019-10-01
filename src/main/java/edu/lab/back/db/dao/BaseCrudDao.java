@@ -13,6 +13,6 @@ public interface BaseCrudDao <EntityType, IdType> {
 
     EntityType update(EntityType entity);
 
-    EntityType add(EntityType entity);
+    EntityType save(EntityType entity);
 
 }

@@ -47,12 +47,15 @@ public class ProfileEntity {
 
     @Override
     public String toString() {
+        final String progileTypeStr = this.profileType == null ? "" : this.profileType.getName();
+        final String schoolStr = this.school.getName() == null ? "" : this.school.getName();
+
         return "ProfileEntity{" +
             "id=" + this.id +
             ", name='" + this.name + '\'' +
             ", age=" + this.age +
-            ", profileType=" + this.profileType.toString() +
-            ", school=" + this.school.getName() +
+            ", profileType=" + progileTypeStr +
+            ", school=" + schoolStr +
             ", classLevel='" + this.classLevel + '\'' +
             '}';
     }
