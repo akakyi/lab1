@@ -1,6 +1,7 @@
 package edu.lab.back.controller;
 
-import edu.lab.back.json.CityJson;
+import edu.lab.back.json.request.CityRequestJson;
+import edu.lab.back.json.response.CityResponseJson;
 import edu.lab.back.service.crud.CityCrudService;
 import edu.lab.back.util.UrlPatterns;
 import lombok.NoArgsConstructor;
@@ -52,11 +53,11 @@ public class CityController extends BaseHttpServlet {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
 
         if (idString != null) {
-            final CityJson city = this.cityCrudService.getById(idString);
+            final CityResponseJson city = this.cityCrudService.getById(idString);
             this.writeStringResult(city.toJsonString(), resp);
             return;
         } else {
-            final List<CityJson> allCities = this.cityCrudService.getAll();
+            final List<CityResponseJson> allCities = this.cityCrudService.getAll();
             this.writeResult(allCities, resp);
         }
     }
@@ -67,8 +68,8 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final CityJson cityJson = this.readRequest(req, CityJson.class);
-        final CityJson saved = this.cityCrudService.save(cityJson);
+        final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
+        final CityResponseJson saved = this.cityCrudService.save(cityJson);
         this.writeStringResult(saved.toJsonString(), resp);
     }
 
@@ -78,8 +79,8 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final CityJson cityJson = this.readRequest(req, CityJson.class);
-        final CityJson updated = this.cityCrudService.update(cityJson);
+        final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
+        final CityResponseJson updated = this.cityCrudService.update(cityJson);
         this.writeStringResult(updated.toJsonString(), resp);
     }
 
@@ -90,7 +91,7 @@ public class CityController extends BaseHttpServlet {
     ) throws ServletException, IOException
     {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
-        final CityJson deleted = this.cityCrudService.deleteById(idString);
+        final CityResponseJson deleted = this.cityCrudService.deleteById(idString);
         this.writeStringResult(deleted.toJsonString(), resp);
     }
 

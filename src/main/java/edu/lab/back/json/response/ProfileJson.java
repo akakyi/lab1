@@ -1,8 +1,9 @@
-package edu.lab.back.json;
+package edu.lab.back.json.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.lab.back.db.entity.ProfileEntity;
 import edu.lab.back.db.entity.ProfileTypeEntity;
+import edu.lab.back.json.JsonPojo;
 import edu.lab.back.util.ProfileTypeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;

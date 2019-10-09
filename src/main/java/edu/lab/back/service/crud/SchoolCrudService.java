@@ -1,29 +1,20 @@
 package edu.lab.back.service.crud;
 
-import edu.lab.back.db.dao.SchoolDao;
-import edu.lab.back.db.entity.SchoolEntity;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import edu.lab.back.json.request.SchoolRequestJson;
+import edu.lab.back.json.response.SchoolResponseJson;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import java.util.List;
 
-@Stateless
-@NoArgsConstructor
-public class SchoolCrudService {
+public interface SchoolCrudService {
 
-    private SchoolDao schoolDao;
+    SchoolResponseJson getById(final String idStr);
 
-    @Inject
-    public SchoolCrudService(@NonNull final SchoolDao schoolDao) {
-        this.schoolDao = schoolDao;
-    }
+    List<SchoolResponseJson> getAll();
 
-    @Transactional
-    public String getById(final Long id) {
-        final SchoolEntity school = this.schoolDao.getById(id, SchoolEntity.class);
-        return school.toString();
-    }
+    SchoolResponseJson deleteById(String idString);
+
+    SchoolResponseJson save(SchoolRequestJson schoolJson);
+
+    SchoolResponseJson update(SchoolRequestJson schoolJson);
 
 }

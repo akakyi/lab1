@@ -1,6 +1,7 @@
 package edu.lab.back.db.entity;
 
-import edu.lab.back.json.CityJson;
+import edu.lab.back.json.request.CityRequestJson;
+import edu.lab.back.json.response.CityResponseJson;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -54,11 +55,19 @@ public class CityEntity {
             '}';
     }
 
-    public static CityEntity convert(@NonNull final CityJson cityJson) {
+    public static CityEntity convert(@NonNull final CityResponseJson cityResponseJson) {
+        final CityEntity entity = new CityEntity();
+        entity.setName(cityResponseJson.getName());
+        entity.setId(cityResponseJson.getId());
+        //TODO schools
+
+        return entity;
+    }
+
+    public static CityEntity convert(@NonNull final CityRequestJson cityJson) {
         final CityEntity entity = new CityEntity();
         entity.setName(cityJson.getName());
         entity.setId(cityJson.getId());
-        //TODO schools
 
         return entity;
     }

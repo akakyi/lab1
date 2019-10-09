@@ -29,12 +29,10 @@ public abstract class BaseHttpServlet extends HttpServlet {
         @NonNull final HttpServletResponse response
     ) throws IOException
     {
-        final ServletOutputStream outputStream = response.getOutputStream();
         final ObjectMapper mapper = new ObjectMapper();
         final String jsonString = mapper.writeValueAsString(pojos);
 
-        outputStream.print(jsonString);
-        outputStream.close();
+        this.writeStringResult(jsonString, response);
     }
 
     protected <JsonType extends JsonPojo> JsonType readRequest(
