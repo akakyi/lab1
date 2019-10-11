@@ -33,7 +33,7 @@ create sequence profile_type_id_sequence;
 create table profile_type
 (
   id smallint primary key default nextval('profile_type_id_sequence'),
-  name text not null
+  name text not null unique
 );
 
 comment on table profile_type is 'Сущность типа профиля';

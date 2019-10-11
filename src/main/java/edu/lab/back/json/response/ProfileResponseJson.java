@@ -11,7 +11,7 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class ProfileJson implements JsonPojo {
+public class ProfileResponseJson implements JsonPojo {
 
     @JsonProperty(value = "id")
     private Long id;
@@ -28,8 +28,8 @@ public class ProfileJson implements JsonPojo {
     @JsonProperty(value = "class_level")
     private String classLevel;
 
-    public static ProfileJson convert(@NonNull final ProfileEntity profileEntity) {
-        final ProfileJson result = new ProfileJson();
+    public static ProfileResponseJson convert(@NonNull final ProfileEntity profileEntity) {
+        final ProfileResponseJson result = new ProfileResponseJson();
         result.setAge(profileEntity.getAge());
         result.setClassLevel(profileEntity.getClassLevel());
         result.setId(profileEntity.getId());

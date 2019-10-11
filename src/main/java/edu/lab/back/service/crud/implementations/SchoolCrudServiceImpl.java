@@ -1,6 +1,5 @@
 package edu.lab.back.service.crud.implementations;
 
-import edu.lab.back.db.dao.CityDao;
 import edu.lab.back.db.dao.SchoolDao;
 import edu.lab.back.db.entity.CityEntity;
 import edu.lab.back.db.entity.SchoolEntity;
@@ -16,18 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-//@NoArgsConstructor
 @Transactional(rollbackOn = Exception.class)
 public class SchoolCrudServiceImpl extends BaseCrudService implements SchoolCrudService {
 
-    final private SchoolDao schoolDao;
-
-    final private CityDao cityDao;
+    private final SchoolDao schoolDao;
 
     @Inject
-    public SchoolCrudServiceImpl(@NonNull final SchoolDao schoolDao, @NonNull final CityDao cityDao) {
+    public SchoolCrudServiceImpl(@NonNull final SchoolDao schoolDao) {
         this.schoolDao = schoolDao;
-        this.cityDao = cityDao;
     }
 
     @Override

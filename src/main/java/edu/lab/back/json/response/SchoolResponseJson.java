@@ -21,7 +21,7 @@ public class SchoolResponseJson implements JsonPojo {
     private String name;
 
     @JsonProperty(value = "profiles")
-    private List<ProfileJson> profiles;
+    private List<ProfileResponseJson> profiles;
 
     public static SchoolResponseJson convert(@NonNull final SchoolEntity schoolEntity) {
         SchoolResponseJson result = new SchoolResponseJson();
@@ -29,9 +29,9 @@ public class SchoolResponseJson implements JsonPojo {
         result.setName(schoolEntity.getName());
 
         if (schoolEntity.getProfiles() != null) {
-            final List<ProfileJson> profilesJson = schoolEntity.getProfiles()
+            final List<ProfileResponseJson> profilesJson = schoolEntity.getProfiles()
                 .stream()
-                .map(ProfileJson::convert)
+                .map(ProfileResponseJson::convert)
                 .collect(Collectors.toList());
 
             result.setProfiles(profilesJson);

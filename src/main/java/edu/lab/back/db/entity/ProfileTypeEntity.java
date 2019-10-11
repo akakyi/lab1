@@ -12,10 +12,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "profile_type")
+@Table(name = ProfileTypeEntity.TABLE_NAME)
 @Data
 @NoArgsConstructor
 public class ProfileTypeEntity {
+
+    public static final String TABLE_NAME = "profile_type";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_type_generator")

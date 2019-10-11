@@ -5,7 +5,6 @@ import edu.lab.back.db.entity.CityEntity;
 import edu.lab.back.json.request.CityRequestJson;
 import edu.lab.back.json.response.CityResponseJson;
 import edu.lab.back.service.crud.CityCrudService;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -15,11 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-@NoArgsConstructor
 @Transactional(rollbackOn = Exception.class)
 public class CityCrudServiceImpl extends BaseCrudService implements CityCrudService {
 
-    private CityDao cityDao;
+    private final CityDao cityDao;
 
     @Inject
     public CityCrudServiceImpl(@NonNull final CityDao cityDao) {

@@ -1,11 +1,10 @@
 package edu.lab.back.util;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.NonNull;
 
 import java.util.Arrays;
 
-@Getter
 public enum ProfileTypeEnum implements NamedEnum {
 
     STUDENT("Студент"),
@@ -16,6 +15,11 @@ public enum ProfileTypeEnum implements NamedEnum {
 
     ProfileTypeEnum(String name) {
         this.name = name;
+    }
+
+    @JsonValue
+    public String getName() {
+        return this.name;
     }
 
     public static ProfileTypeEnum getEnumByName(@NonNull final String name) {
