@@ -47,4 +47,15 @@ public abstract class BaseHttpServlet extends HttpServlet {
         return result;
     }
 
+    protected void writeValidationError(
+            @NonNull final String errMsg,
+            @NonNull final HttpServletResponse response
+    ) throws IOException
+    {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        final ServletOutputStream outputStream = response.getOutputStream();
+        outputStream.print(errMsg);
+        outputStream.close();
+    }
+
 }

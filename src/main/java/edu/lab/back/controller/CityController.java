@@ -3,7 +3,9 @@ package edu.lab.back.controller;
 import edu.lab.back.json.request.CityRequestJson;
 import edu.lab.back.json.response.CityResponseJson;
 import edu.lab.back.service.crud.CityCrudService;
+import edu.lab.back.service.validator.CityValidator;
 import edu.lab.back.util.UrlPatterns;
+import edu.lab.back.util.ValidationMessages;
 import lombok.NoArgsConstructor;
 
 import javax.inject.Inject;
@@ -26,6 +28,9 @@ public class CityController extends BaseHttpServlet {
 
     @Inject
     private CityCrudService cityCrudService;
+
+    @Inject
+    private CityValidator validator;
 
     /**
      * Возвращает города. Если передан параметр id, то вернёт только один объект.
@@ -68,7 +73,19 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
+        final CityRequestJson cityJson;
+        try {
+            cityJson = this.readRequest(req, CityRequestJson.class);
+        } catch (IOException e) {
+            this.writeValidationError(ValidationMessages.INVALID_JSON_FORMAT, resp);
+            return;
+        }
+        final boolean valid = this.validator.validateCitySave(cityJson);
+        if (!valid) {
+            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+            return;
+        }
+
         final CityResponseJson saved = this.cityCrudService.save(cityJson);
         this.writeStringResult(saved.toJsonString(), resp);
     }
@@ -79,7 +96,19 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
+        final CityRequestJson cityJson;
+        try {
+            cityJson = this.readRequest(req, CityRequestJson.class);
+        } catch (IOException e) {
+            this.writeValidationError(ValidationMessages.INVALID_JSON_FORMAT, resp);
+            return;
+        }
+        final boolean valid = this.validator.validateCitySave(cityJson);
+        if (!valid) {
+            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+            return;
+        }
+        
         final CityResponseJson updated = this.cityCrudService.update(cityJson);
         this.writeStringResult(updated.toJsonString(), resp);
     }
