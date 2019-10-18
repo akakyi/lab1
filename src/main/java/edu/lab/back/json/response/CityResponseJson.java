@@ -20,8 +20,10 @@ public class CityResponseJson implements JsonPojo {
     @JsonProperty(value = "name")
     private String name;
 
+    //TODO в рамках лабы норм, но лучше бы тут лежали просто айдишники
     @JsonProperty(value = "schools")
     private List<SchoolResponseJson> schools;
+
 
     public static CityResponseJson convert(@NonNull final CityEntity cityEntity) {
         final CityResponseJson cityResponseJson = new CityResponseJson();

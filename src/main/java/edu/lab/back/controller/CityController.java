@@ -6,6 +6,7 @@ import edu.lab.back.service.crud.CityCrudService;
 import edu.lab.back.service.validator.CityValidator;
 import edu.lab.back.util.UrlPatterns;
 import edu.lab.back.util.ValidationMessages;
+import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NoArgsConstructor;
 
 import javax.inject.Inject;
@@ -58,9 +59,12 @@ public class CityController extends BaseHttpServlet {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
 
         if (idString != null) {
-            final CityResponseJson city = this.cityCrudService.getById(idString);
-            this.writeStringResult(city.toJsonString(), resp);
-            return;
+            try {
+                final CityResponseJson city = this.cityCrudService.getById(idString);
+                this.writeStringResult(city.toJsonString(), resp);
+            } catch (InvalidPayloadException e) {
+                this.writeValidationError(e.getMessage(), resp);
+            }
         } else {
             final List<CityResponseJson> allCities = this.cityCrudService.getAll();
             this.writeResult(allCities, resp);
@@ -76,18 +80,14 @@ public class CityController extends BaseHttpServlet {
         final CityRequestJson cityJson;
         try {
             cityJson = this.readRequest(req, CityRequestJson.class);
+            this.validator.validateSave(cityJson);
+            final CityResponseJson saved = this.cityCrudService.save(cityJson);
+            this.writeStringResult(saved.toJsonString(), resp);
         } catch (IOException e) {
-            this.writeValidationError(ValidationMessages.INVALID_JSON_FORMAT, resp);
-            return;
-        }
-        final boolean valid = this.validator.validateCitySave(cityJson);
-        if (!valid) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
-            return;
+        } catch (InvalidPayloadException e) {
+            this.writeValidationError(e.getMessage(), resp);
         }
-
-        final CityResponseJson saved = this.cityCrudService.save(cityJson);
-        this.writeStringResult(saved.toJsonString(), resp);
     }
 
     @Override
@@ -99,18 +99,14 @@ public class CityController extends BaseHttpServlet {
         final CityRequestJson cityJson;
         try {
             cityJson = this.readRequest(req, CityRequestJson.class);
+            this.validator.validateUpdate(cityJson);
+            final CityResponseJson updated = this.cityCrudService.update(cityJson);
+            this.writeStringResult(updated.toJsonString(), resp);
         } catch (IOException e) {
-            this.writeValidationError(ValidationMessages.INVALID_JSON_FORMAT, resp);
-            return;
-        }
-        final boolean valid = this.validator.validateCitySave(cityJson);
-        if (!valid) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
-            return;
+        } catch (InvalidPayloadException e) {
+            this.writeValidationError(e.getMessage(), resp);
         }
-        
-        final CityResponseJson updated = this.cityCrudService.update(cityJson);
-        this.writeStringResult(updated.toJsonString(), resp);
     }
 
     @Override
@@ -120,8 +116,12 @@ public class CityController extends BaseHttpServlet {
     ) throws ServletException, IOException
     {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
-        final CityResponseJson deleted = this.cityCrudService.deleteById(idString);
-        this.writeStringResult(deleted.toJsonString(), resp);
+        try {
+            final CityResponseJson deleted = this.cityCrudService.deleteById(idString);
+            this.writeStringResult(deleted.toJsonString(), resp);
+        } catch (InvalidPayloadException e) {
+            this.writeValidationError(e.getMessage(), resp);
+        }
     }
 
 }

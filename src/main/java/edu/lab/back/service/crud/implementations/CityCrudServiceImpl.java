@@ -5,6 +5,7 @@ import edu.lab.back.db.entity.CityEntity;
 import edu.lab.back.json.request.CityRequestJson;
 import edu.lab.back.json.response.CityResponseJson;
 import edu.lab.back.service.crud.CityCrudService;
+import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -25,7 +26,7 @@ public class CityCrudServiceImpl extends BaseCrudService implements CityCrudServ
     }
 
     @Override
-    public CityResponseJson getById(@NonNull final String idString) {
+    public CityResponseJson getById(@NonNull final String idString) throws InvalidPayloadException {
         final Long id = this.getId(idString);
         final CityEntity city = this.cityDao.getById(id, CityEntity.class);
         final CityResponseJson cityResponseJson = CityResponseJson.convert(city);
@@ -44,7 +45,7 @@ public class CityCrudServiceImpl extends BaseCrudService implements CityCrudServ
     }
 
     @Override
-    public CityResponseJson deleteById(@NonNull final String idString) {
+    public CityResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException {
         final Long id = this.getId(idString);
         final CityEntity deletedEntity = this.cityDao.deleteById(id, CityEntity.class);
         final CityResponseJson deletedJson = CityResponseJson.convert(deletedEntity);

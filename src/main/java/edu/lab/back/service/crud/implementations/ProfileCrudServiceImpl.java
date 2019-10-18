@@ -8,6 +8,7 @@ import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.request.ProfileRequestJson;
 import edu.lab.back.json.response.ProfileResponseJson;
 import edu.lab.back.service.crud.ProfileCrudService;
+import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -29,7 +30,7 @@ public class ProfileCrudServiceImpl extends BaseCrudService implements ProfileCr
     }
 
     @Override
-    public ProfileResponseJson getById(@NonNull final String idString) {
+    public ProfileResponseJson getById(@NonNull final String idString) throws InvalidPayloadException {
         final Long id = this.getId(idString);
         final ProfileEntity profile = this.profileDao.getById(id, ProfileEntity.class);
         final ProfileResponseJson converted = ProfileResponseJson.convert(profile);
@@ -47,7 +48,7 @@ public class ProfileCrudServiceImpl extends BaseCrudService implements ProfileCr
     }
 
     @Override
-    public ProfileResponseJson deleteById(@NonNull final String idString) {
+    public ProfileResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException {
         final Long id = this.getId(idString);
         final ProfileEntity deletedEntity = this.profileDao.deleteById(id, ProfileEntity.class);
 

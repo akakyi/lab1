@@ -3,7 +3,10 @@ package edu.lab.back.controller;
 import edu.lab.back.json.request.SchoolRequestJson;
 import edu.lab.back.json.response.SchoolResponseJson;
 import edu.lab.back.service.crud.SchoolCrudService;
+import edu.lab.back.service.validator.SchoolValidator;
 import edu.lab.back.util.UrlPatterns;
+import edu.lab.back.util.ValidationMessages;
+import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -26,6 +29,9 @@ public class SchoolController extends BaseHttpServlet {
     @Inject
     private SchoolCrudService schoolCrudService;
 
+    @Inject
+    private SchoolValidator validator;
+
     @Override
     protected void doGet(
         final HttpServletRequest req,
@@ -35,9 +41,12 @@ public class SchoolController extends BaseHttpServlet {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
 
         if (idString != null) {
-            final SchoolResponseJson city = this.schoolCrudService.getById(idString);
-            this.writeStringResult(city.toJsonString(), resp);
-            return;
+            try {
+                final SchoolResponseJson school = this.schoolCrudService.getById(idString);
+                this.writeStringResult(school.toJsonString(), resp);
+            } catch (InvalidPayloadException e) {
+                this.writeValidationError(e.getMessage(), resp);
+            }
         } else {
             final List<SchoolResponseJson> allCities = this.schoolCrudService.getAll();
             this.writeResult(allCities, resp);
@@ -50,9 +59,16 @@ public class SchoolController extends BaseHttpServlet {
         @NonNull final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final SchoolRequestJson schoolRequestJson = this.readRequest(req, SchoolRequestJson.class);
-        final SchoolResponseJson saved = this.schoolCrudService.save(schoolRequestJson);
-        this.writeStringResult(saved.toJsonString(), resp);
+        try {
+            final SchoolRequestJson schoolRequestJson = this.readRequest(req, SchoolRequestJson.class);
+            this.validator.validateSave(schoolRequestJson);
+            final SchoolResponseJson saved = this.schoolCrudService.save(schoolRequestJson);
+            this.writeStringResult(saved.toJsonString(), resp);
+        } catch (IOException e) {
+            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+        } catch (InvalidPayloadException e) {
+            this.writeValidationError(e.getMessage(), resp);
+        }
     }
 
     @Override
@@ -61,9 +77,16 @@ public class SchoolController extends BaseHttpServlet {
         @NonNull final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final SchoolRequestJson schoolRequestJson = this.readRequest(req, SchoolRequestJson.class);
-        final SchoolResponseJson saved = this.schoolCrudService.update(schoolRequestJson);
-        this.writeStringResult(saved.toJsonString(), resp);
+        try {
+            final SchoolRequestJson schoolRequestJson = this.readRequest(req, SchoolRequestJson.class);
+            this.validator.validateUpdate(schoolRequestJson);
+            final SchoolResponseJson saved = this.schoolCrudService.update(schoolRequestJson);
+            this.writeStringResult(saved.toJsonString(), resp);
+        } catch (IOException e) {
+            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+        } catch (InvalidPayloadException e) {
+            this.writeValidationError(e.getMessage(), resp);
+        }
     }
 
     @Override
@@ -74,7 +97,11 @@ public class SchoolController extends BaseHttpServlet {
     {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
 
-        final SchoolResponseJson schoolResponseJson = this.schoolCrudService.deleteById(idString);
-        this.writeStringResult(schoolResponseJson.toJsonString(), resp);
+        try {
+            final SchoolResponseJson deleted = this.schoolCrudService.deleteById(idString);
+            this.writeStringResult(deleted.toJsonString(), resp);
+        } catch (InvalidPayloadException e) {
+            this.writeValidationError(e.getMessage(), resp);
+        }
     }
 }

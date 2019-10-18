@@ -6,6 +6,7 @@ import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.request.SchoolRequestJson;
 import edu.lab.back.json.response.SchoolResponseJson;
 import edu.lab.back.service.crud.SchoolCrudService;
+import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -26,7 +27,7 @@ public class SchoolCrudServiceImpl extends BaseCrudService implements SchoolCrud
     }
 
     @Override
-    public SchoolResponseJson getById(final String idStr) {
+    public SchoolResponseJson getById(final String idStr) throws InvalidPayloadException {
         final Long id = this.getId(idStr);
         final SchoolEntity school = this.schoolDao.getById(id, SchoolEntity.class);
         final SchoolResponseJson converted = SchoolResponseJson.convert(school);
@@ -44,7 +45,7 @@ public class SchoolCrudServiceImpl extends BaseCrudService implements SchoolCrud
     }
 
     @Override
-    public SchoolResponseJson deleteById(@NonNull final String idString) {
+    public SchoolResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException {
         final Long id = this.getId(idString);
         final SchoolEntity deletedEntity = this.schoolDao.deleteById(id, SchoolEntity.class);
 

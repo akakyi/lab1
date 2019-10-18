@@ -4,6 +4,8 @@ public interface ValidationMessages {
 
     String INVALID_REQUEST_JSON = "invalid request json!";
 
-    String INVALID_JSON_FORMAT = "invalid json format!";
+    String INVALID_PATH_VARIABLE = "Invalid path var!";
+
+    String REFERRED_ENTITY_NOT_EXIST = "Referred entity not exist!";
 
 }

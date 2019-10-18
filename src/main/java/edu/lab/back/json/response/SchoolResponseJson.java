@@ -20,6 +20,7 @@ public class SchoolResponseJson implements JsonPojo {
     @JsonProperty(value = "name")
     private String name;
 
+    //TODO в рамках лабы норм, но лучше бы тут лежали просто айдишники
     @JsonProperty(value = "profiles")
     private List<ProfileResponseJson> profiles;
 
