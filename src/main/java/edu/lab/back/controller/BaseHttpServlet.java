@@ -53,6 +53,8 @@ public abstract class BaseHttpServlet extends HttpServlet {
     ) throws IOException
     {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         final ServletOutputStream outputStream = response.getOutputStream();
         outputStream.print(errMsg);
         outputStream.close();

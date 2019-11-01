@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Stateless
 @Transactional(rollbackOn = Exception.class)
-public class CityCrudServiceImpl extends BaseCrudService implements CityCrudService {
+public class CityCrudServiceImpl extends BaseService implements CityCrudService {
 
     private final CityDao cityDao;
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Stateless
 @Transactional(rollbackOn = Exception.class)
-public class SchoolCrudServiceImpl extends BaseCrudService implements SchoolCrudService {
+public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudService {
 
     private final SchoolDao schoolDao;
 

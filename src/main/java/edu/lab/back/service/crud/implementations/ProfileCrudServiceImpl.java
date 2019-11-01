@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-public class ProfileCrudServiceImpl extends BaseCrudService implements ProfileCrudService {
+public class ProfileCrudServiceImpl extends BaseService implements ProfileCrudService {
 
     private final ProfileDao profileDao;
 

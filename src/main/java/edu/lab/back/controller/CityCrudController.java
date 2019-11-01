@@ -18,10 +18,10 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(urlPatterns = {
-    CityController.CONTROLLER_BASE_URL
+    CityCrudController.CONTROLLER_BASE_URL
 })
 @NoArgsConstructor
-public class CityController extends BaseHttpServlet {
+public class CityCrudController extends BaseHttpServlet {
 
     public final static String CONTROLLER_BASE_URL = UrlPatterns.CRUD_BASE_URL + "/city";
 
@@ -77,9 +77,8 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final CityRequestJson cityJson;
         try {
-            cityJson = this.readRequest(req, CityRequestJson.class);
+            final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
             this.validator.validateSave(cityJson);
             final CityResponseJson saved = this.cityCrudService.save(cityJson);
             this.writeStringResult(saved.toJsonString(), resp);
@@ -96,9 +95,8 @@ public class CityController extends BaseHttpServlet {
         final HttpServletResponse resp
     ) throws ServletException, IOException
     {
-        final CityRequestJson cityJson;
         try {
-            cityJson = this.readRequest(req, CityRequestJson.class);
+            final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
             this.validator.validateUpdate(cityJson);
             final CityResponseJson updated = this.cityCrudService.update(cityJson);
             this.writeStringResult(updated.toJsonString(), resp);

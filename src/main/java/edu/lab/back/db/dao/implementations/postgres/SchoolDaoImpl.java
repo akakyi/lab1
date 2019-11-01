@@ -8,11 +8,14 @@ import lombok.NonNull;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
 @NoArgsConstructor
 public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implements SchoolDao {
+
+    private final static String SCHOOLS_BY_CITY_REQUEST = "select s from SchoolEntity s where s.city.id = :cityId";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -20,6 +23,16 @@ public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implement
     @Override
     public List<SchoolEntity> getByIds(@NonNull final List<Long> ids) {
         return null;
+    }
+
+    @Override
+    public List<SchoolEntity> getSchoolsByCityId(@NonNull final Long cityId) {
+        final TypedQuery<SchoolEntity> query
+            = this.entityManager.createQuery(SCHOOLS_BY_CITY_REQUEST, SchoolEntity.class);
+        query.setParameter("cityId", cityId);
+
+        final List<SchoolEntity> result = query.getResultList();
+        return result;
     }
 
     @Override

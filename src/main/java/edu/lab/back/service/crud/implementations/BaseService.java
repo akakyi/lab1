@@ -4,7 +4,7 @@ import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NonNull;
 
-public abstract class BaseCrudService {
+public abstract class BaseService {
 
     protected Long getId(@NonNull final String idString) throws InvalidPayloadException {
         try {

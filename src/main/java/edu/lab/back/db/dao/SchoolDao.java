@@ -8,4 +8,6 @@ public interface SchoolDao extends BaseCrudDao<SchoolEntity, Long> {
 
     List<SchoolEntity> getByIds(List<Long> ids);
 
+    List<SchoolEntity> getSchoolsByCityId(Long cityId);
+
 }
