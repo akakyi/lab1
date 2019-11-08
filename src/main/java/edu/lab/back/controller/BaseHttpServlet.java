@@ -25,6 +25,20 @@ public abstract class BaseHttpServlet extends HttpServlet {
     }
 
     protected void writeResult(
+        final JsonPojo pojo,
+        @NonNull final HttpServletResponse response
+    ) throws IOException
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+        if (pojo == null) {
+            this.writeStringResult("", response);
+        } else {
+            final String jsonString = mapper.writeValueAsString(pojo);
+            this.writeStringResult(jsonString, response);
+        }
+    }
+
+    protected void writeResult(
         @NonNull final List<? extends JsonPojo> pojos,
         @NonNull final HttpServletResponse response
     ) throws IOException

@@ -45,7 +45,7 @@ public class ProfileCrudController extends BaseHttpServlet {
         if (idString != null) {
             try {
                 final ProfileResponseJson profile = this.profileCrudService.getById(idString);
-                this.writeStringResult(profile.toJsonString(), resp);
+                this.writeResult(profile, resp);
             } catch (InvalidPayloadException e) {
                 this.writeValidationError(e.getMessage(), resp);
             }
@@ -65,7 +65,7 @@ public class ProfileCrudController extends BaseHttpServlet {
             final ProfileRequestJson profileJson = this.readRequest(req, ProfileRequestJson.class);
             this.profileValidator.validateSave(profileJson);
             final ProfileResponseJson saved = this.profileCrudService.save(profileJson);
-            this.writeStringResult(saved.toJsonString(), resp);
+            this.writeResult(saved, resp);
         } catch (IOException e) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
         } catch (InvalidPayloadException e) {
@@ -83,7 +83,7 @@ public class ProfileCrudController extends BaseHttpServlet {
             final ProfileRequestJson profileJson = this.readRequest(req, ProfileRequestJson.class);
             this.profileValidator.validateUpdate(profileJson);
             final ProfileResponseJson updated = this.profileCrudService.update(profileJson);
-            this.writeStringResult(updated.toJsonString(), resp);
+            this.writeResult(updated, resp);
         } catch (IOException e) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
         } catch (InvalidPayloadException e) {
@@ -100,7 +100,7 @@ public class ProfileCrudController extends BaseHttpServlet {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
         try {
             final ProfileResponseJson deleted = this.profileCrudService.deleteById(idString);
-            this.writeStringResult(deleted.toJsonString(), resp);
+            this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
             this.writeValidationError(e.getMessage(), resp);
         }

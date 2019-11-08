@@ -61,7 +61,7 @@ public class CityCrudController extends BaseHttpServlet {
         if (idString != null) {
             try {
                 final CityResponseJson city = this.cityCrudService.getById(idString);
-                this.writeStringResult(city.toJsonString(), resp);
+                this.writeResult(city, resp);
             } catch (InvalidPayloadException e) {
                 this.writeValidationError(e.getMessage(), resp);
             }
@@ -81,7 +81,7 @@ public class CityCrudController extends BaseHttpServlet {
             final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
             this.validator.validateSave(cityJson);
             final CityResponseJson saved = this.cityCrudService.save(cityJson);
-            this.writeStringResult(saved.toJsonString(), resp);
+            this.writeResult(saved, resp);
         } catch (IOException e) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
         } catch (InvalidPayloadException e) {
@@ -99,7 +99,7 @@ public class CityCrudController extends BaseHttpServlet {
             final CityRequestJson cityJson = this.readRequest(req, CityRequestJson.class);
             this.validator.validateUpdate(cityJson);
             final CityResponseJson updated = this.cityCrudService.update(cityJson);
-            this.writeStringResult(updated.toJsonString(), resp);
+            this.writeResult(updated, resp);
         } catch (IOException e) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
         } catch (InvalidPayloadException e) {
@@ -116,7 +116,7 @@ public class CityCrudController extends BaseHttpServlet {
         final String idString = req.getParameter(ID_PATH_VARIABLE_NAME);
         try {
             final CityResponseJson deleted = this.cityCrudService.deleteById(idString);
-            this.writeStringResult(deleted.toJsonString(), resp);
+            this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
             this.writeValidationError(e.getMessage(), resp);
         }

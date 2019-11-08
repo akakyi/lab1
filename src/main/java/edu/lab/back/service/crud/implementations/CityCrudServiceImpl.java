@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -39,6 +40,7 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
         final List<CityEntity> allCities = this.cityDao.getAll(CityEntity.class);
         final List<CityResponseJson> allCitiesJson = allCities
             .stream()
+            .filter(Objects::nonNull)
             .map(CityResponseJson::convert)
             .collect(Collectors.toList());
         return allCitiesJson;

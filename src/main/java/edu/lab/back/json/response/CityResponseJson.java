@@ -6,7 +6,6 @@ import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.JsonPojo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +27,11 @@ public class CityResponseJson implements JsonPojo {
     private List<Long> schoolsIds;
 
 
-    public static CityResponseJson convert(@NonNull final CityEntity cityEntity) {
+    public static CityResponseJson convert(final CityEntity cityEntity) {
+        if (cityEntity == null) {
+            return null;
+        }
+
         final CityResponseJson cityResponseJson = new CityResponseJson();
         cityResponseJson.setId(cityEntity.getId());
         cityResponseJson.setName(cityEntity.getName());

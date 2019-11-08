@@ -55,7 +55,11 @@ public class CityEntity {
             '}';
     }
 
-    public static CityEntity convert(@NonNull final CityResponseJson cityResponseJson) {
+    public static CityEntity convert(final CityResponseJson cityResponseJson) {
+        if (cityResponseJson == null) {
+            return null;
+        }
+
         final CityEntity entity = new CityEntity();
         entity.setName(cityResponseJson.getName());
         entity.setId(cityResponseJson.getId());
@@ -65,6 +69,10 @@ public class CityEntity {
     }
 
     public static CityEntity convert(@NonNull final CityRequestJson cityJson) {
+        if (cityJson == null) {
+            return null;
+        }
+
         final CityEntity entity = new CityEntity();
         entity.setName(cityJson.getName());
         entity.setId(cityJson.getId());

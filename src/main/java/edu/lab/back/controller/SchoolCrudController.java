@@ -43,7 +43,7 @@ public class SchoolCrudController extends BaseHttpServlet {
         if (idString != null) {
             try {
                 final SchoolResponseJson school = this.schoolCrudService.getById(idString);
-                this.writeStringResult(school.toJsonString(), resp);
+                this.writeResult(school, resp);
             } catch (InvalidPayloadException e) {
                 this.writeValidationError(e.getMessage(), resp);
             }
@@ -63,7 +63,7 @@ public class SchoolCrudController extends BaseHttpServlet {
             final SchoolRequestJson schoolRequestJson = this.readRequest(req, SchoolRequestJson.class);
             this.validator.validateSave(schoolRequestJson);
             final SchoolResponseJson saved = this.schoolCrudService.save(schoolRequestJson);
-            this.writeStringResult(saved.toJsonString(), resp);
+            this.writeResult(saved, resp);
         } catch (IOException e) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
         } catch (InvalidPayloadException e) {
@@ -81,7 +81,7 @@ public class SchoolCrudController extends BaseHttpServlet {
             final SchoolRequestJson schoolRequestJson = this.readRequest(req, SchoolRequestJson.class);
             this.validator.validateUpdate(schoolRequestJson);
             final SchoolResponseJson saved = this.schoolCrudService.update(schoolRequestJson);
-            this.writeStringResult(saved.toJsonString(), resp);
+            this.writeResult(saved, resp);
         } catch (IOException e) {
             this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
         } catch (InvalidPayloadException e) {
@@ -99,7 +99,7 @@ public class SchoolCrudController extends BaseHttpServlet {
 
         try {
             final SchoolResponseJson deleted = this.schoolCrudService.deleteById(idString);
-            this.writeStringResult(deleted.toJsonString(), resp);
+            this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
             this.writeValidationError(e.getMessage(), resp);
         }
