@@ -8,7 +8,9 @@ import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.request.ProfileRequestJson;
 import edu.lab.back.json.response.ProfileResponseJson;
 import edu.lab.back.service.crud.ProfileCrudService;
+import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
+import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -30,9 +32,16 @@ public class ProfileCrudServiceImpl extends BaseService implements ProfileCrudSe
     }
 
     @Override
-    public ProfileResponseJson getById(@NonNull final String idString) throws InvalidPayloadException {
+    public ProfileResponseJson getById(
+        @NonNull final String idString
+    ) throws InvalidPayloadException, ResourceNotFound
+    {
         final Long id = this.getId(idString);
         final ProfileEntity profile = this.profileDao.getById(id, ProfileEntity.class);
+        if (profile == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
+
         final ProfileResponseJson converted = ProfileResponseJson.convert(profile);
         return converted;
     }
@@ -48,9 +57,15 @@ public class ProfileCrudServiceImpl extends BaseService implements ProfileCrudSe
     }
 
     @Override
-    public ProfileResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException {
+    public ProfileResponseJson deleteById(
+        @NonNull final String idString
+    ) throws InvalidPayloadException, ResourceNotFound
+    {
         final Long id = this.getId(idString);
         final ProfileEntity deletedEntity = this.profileDao.deleteById(id, ProfileEntity.class);
+        if (deletedEntity == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
 
         final ProfileResponseJson result = ProfileResponseJson.convert(deletedEntity);
         return result;

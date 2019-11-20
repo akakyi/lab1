@@ -7,6 +7,7 @@ import edu.lab.back.service.validator.SchoolValidator;
 import edu.lab.back.util.UrlPatterns;
 import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
+import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -45,7 +46,9 @@ public class SchoolCrudController extends BaseHttpServlet {
                 final SchoolResponseJson school = this.schoolCrudService.getById(idString);
                 this.writeResult(school, resp);
             } catch (InvalidPayloadException e) {
-                this.writeValidationError(e.getMessage(), resp);
+                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            } catch (ResourceNotFound e) {
+                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             final List<SchoolResponseJson> allCities = this.schoolCrudService.getAll();
@@ -65,9 +68,9 @@ public class SchoolCrudController extends BaseHttpServlet {
             final SchoolResponseJson saved = this.schoolCrudService.save(schoolRequestJson);
             this.writeResult(saved, resp);
         } catch (IOException e) {
-            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeValidationError(e.getMessage(), resp);
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -83,9 +86,9 @@ public class SchoolCrudController extends BaseHttpServlet {
             final SchoolResponseJson saved = this.schoolCrudService.update(schoolRequestJson);
             this.writeResult(saved, resp);
         } catch (IOException e) {
-            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeValidationError(e.getMessage(), resp);
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -101,7 +104,9 @@ public class SchoolCrudController extends BaseHttpServlet {
             final SchoolResponseJson deleted = this.schoolCrudService.deleteById(idString);
             this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
-            this.writeValidationError(e.getMessage(), resp);
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+        } catch (ResourceNotFound e) {
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
         }
     }
 }

@@ -5,7 +5,9 @@ import edu.lab.back.db.entity.CityEntity;
 import edu.lab.back.json.request.CityRequestJson;
 import edu.lab.back.json.response.CityResponseJson;
 import edu.lab.back.service.crud.CityCrudService;
+import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
+import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -27,9 +29,13 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
     }
 
     @Override
-    public CityResponseJson getById(@NonNull final String idString) throws InvalidPayloadException {
+    public CityResponseJson getById(@NonNull final String idString) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(idString);
         final CityEntity city = this.cityDao.getById(id, CityEntity.class);
+        if (city == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
+
         final CityResponseJson cityResponseJson = CityResponseJson.convert(city);
 
         return cityResponseJson;
@@ -47,9 +53,13 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
     }
 
     @Override
-    public CityResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException {
+    public CityResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(idString);
         final CityEntity deletedEntity = this.cityDao.deleteById(id, CityEntity.class);
+        if (deletedEntity == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
+
         final CityResponseJson deletedJson = CityResponseJson.convert(deletedEntity);
 
         return deletedJson;

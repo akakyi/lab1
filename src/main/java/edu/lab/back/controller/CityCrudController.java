@@ -7,6 +7,7 @@ import edu.lab.back.service.validator.CityValidator;
 import edu.lab.back.util.UrlPatterns;
 import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
+import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NoArgsConstructor;
 
 import javax.inject.Inject;
@@ -63,7 +64,9 @@ public class CityCrudController extends BaseHttpServlet {
                 final CityResponseJson city = this.cityCrudService.getById(idString);
                 this.writeResult(city, resp);
             } catch (InvalidPayloadException e) {
-                this.writeValidationError(e.getMessage(), resp);
+                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            } catch (ResourceNotFound e) {
+                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             final List<CityResponseJson> allCities = this.cityCrudService.getAll();
@@ -83,9 +86,9 @@ public class CityCrudController extends BaseHttpServlet {
             final CityResponseJson saved = this.cityCrudService.save(cityJson);
             this.writeResult(saved, resp);
         } catch (IOException e) {
-            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeValidationError(e.getMessage(), resp);
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -101,9 +104,9 @@ public class CityCrudController extends BaseHttpServlet {
             final CityResponseJson updated = this.cityCrudService.update(cityJson);
             this.writeResult(updated, resp);
         } catch (IOException e) {
-            this.writeValidationError(ValidationMessages.INVALID_REQUEST_JSON, resp);
+            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeValidationError(e.getMessage(), resp);
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -118,7 +121,9 @@ public class CityCrudController extends BaseHttpServlet {
             final CityResponseJson deleted = this.cityCrudService.deleteById(idString);
             this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
-            this.writeValidationError(e.getMessage(), resp);
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+        } catch (ResourceNotFound e) {
+            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

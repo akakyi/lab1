@@ -5,7 +5,9 @@ import edu.lab.back.db.entity.ProfileEntity;
 import edu.lab.back.json.response.ProfileResponseJson;
 import edu.lab.back.service.ProfileAdvancedGettingService;
 import edu.lab.back.service.crud.implementations.BaseService;
+import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
+import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -26,10 +28,12 @@ public class ProfileAdvancedGettingServiceImpl extends BaseService implements Pr
     @Override
     public List<ProfileResponseJson> getProfileBySchoolId(
         @NonNull final String schoolId
-    ) throws InvalidPayloadException
-    {
+    ) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(schoolId);
         final List<ProfileEntity> profilesBySchoolId = this.profileDao.getProfilesBySchoolId(id);
+        if (profilesBySchoolId.isEmpty()) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
 
         final List<ProfileResponseJson> result = profilesBySchoolId.stream()
             .map(ProfileResponseJson::convert)

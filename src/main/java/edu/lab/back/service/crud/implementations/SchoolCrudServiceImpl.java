@@ -6,7 +6,9 @@ import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.request.SchoolRequestJson;
 import edu.lab.back.json.response.SchoolResponseJson;
 import edu.lab.back.service.crud.SchoolCrudService;
+import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
+import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -27,9 +29,13 @@ public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudServ
     }
 
     @Override
-    public SchoolResponseJson getById(final String idStr) throws InvalidPayloadException {
+    public SchoolResponseJson getById(final String idStr) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(idStr);
         final SchoolEntity school = this.schoolDao.getById(id, SchoolEntity.class);
+        if (school == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
+
         final SchoolResponseJson converted = SchoolResponseJson.convert(school);
         return converted;
     }
@@ -45,9 +51,15 @@ public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudServ
     }
 
     @Override
-    public SchoolResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException {
+    public SchoolResponseJson deleteById(
+        @NonNull final String idString
+    ) throws InvalidPayloadException, ResourceNotFound
+    {
         final Long id = this.getId(idString);
         final SchoolEntity deletedEntity = this.schoolDao.deleteById(id, SchoolEntity.class);
+        if (deletedEntity == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
 
         final SchoolResponseJson result = SchoolResponseJson.convert(deletedEntity);
         return result;

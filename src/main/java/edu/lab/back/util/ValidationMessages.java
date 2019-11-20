@@ -8,4 +8,6 @@ public interface ValidationMessages {
 
     String REFERRED_ENTITY_NOT_EXIST = "Referred entity not exist!";
 
+    String RESOURCE_NOT_FOUND = "The resource required by identifier was not found";
+
 }

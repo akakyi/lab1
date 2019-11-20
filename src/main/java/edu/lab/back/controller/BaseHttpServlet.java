@@ -61,12 +61,13 @@ public abstract class BaseHttpServlet extends HttpServlet {
         return result;
     }
 
-    protected void writeValidationError(
+    protected void writeError(
             @NonNull final String errMsg,
-            @NonNull final HttpServletResponse response
+            @NonNull final HttpServletResponse response,
+            @NonNull final Integer responseStatus
     ) throws IOException
     {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.setStatus(responseStatus);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         final ServletOutputStream outputStream = response.getOutputStream();
