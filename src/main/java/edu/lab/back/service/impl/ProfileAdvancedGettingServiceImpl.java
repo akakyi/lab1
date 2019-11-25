@@ -20,6 +20,8 @@ public class ProfileAdvancedGettingServiceImpl extends BaseService implements Pr
 
     private final ProfileDao profileDao;
 
+//    private final SchoolDao schoolDao;
+
     @Inject
     public ProfileAdvancedGettingServiceImpl(@NonNull final ProfileDao profileDao) {
         this.profileDao = profileDao;
@@ -30,6 +32,10 @@ public class ProfileAdvancedGettingServiceImpl extends BaseService implements Pr
         @NonNull final String schoolId
     ) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(schoolId);
+//        final SchoolEntity school = this.schoolDao.getById(id, SchoolEntity.class);
+//        final List<ProfileEntity> profiles = school.getProfiles();
+//        return profiles.stream().map(ProfileResponseJson::convert).collect(Collectors.toList());
+
         final List<ProfileEntity> profilesBySchoolId = this.profileDao.getProfilesBySchoolId(id);
         if (profilesBySchoolId.isEmpty()) {
             throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
