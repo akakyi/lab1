@@ -1,56 +1,32 @@
+$(document).ready(function() {
+	let baseUrl = 'http://localhost:8080/lab1';
 
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+	$('.addcity').on('click', function(e) {
+		e.preventDefault(); //Это если ссылка
+		$.post(baseUrl + '/crud/city', JSON.stringify({name: 'ds_fr_fr'}), function (data) {
+			console.log(data); //Посмотреть в консоли ответ
+			let html = $('<div/>', {
+				'class': 'row'
+			}).append($('<div/>', {
+				'class': 'cell',
+				'text': data.name // Повторять конструкцию append пока все ячейки нужные не закончишь
+			}));
+			$(".school").append(html);
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
+		}, 'json');
+	});
+	$('.addschool').on('click', function(e) {
+		e.preventDefault(); //Это если ссылка
+		$.get('http://www.json-generator.com/api/json/get/ceRvLAhUKq?indent=2', function (data) {
+			console.log(data); //Посмотреть в консоли ответ
+			let html = $('<div/>', {
+				'class': 'row'
+			}).append($('<div/>', {
+				'class': 'cell',
+				'text': data[0].balance // Повторять конструкцию append пока все ячейки нужные не закончишь
+			}));
+			$(".students").append(html);
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
-
-// Create a new list item when clicking on the "Add" button
-function newElement(prefix) {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById(prefix + "input").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById(prefix + "UL").appendChild(li);
-  }
-  document.getElementById(prefix + "input").value = "";
-
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
+		});
+	});
+});

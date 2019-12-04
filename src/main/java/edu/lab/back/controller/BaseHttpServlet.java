@@ -2,6 +2,7 @@ package edu.lab.back.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.lab.back.json.JsonPojo;
+import edu.lab.back.json.response.ErrorMessageJson;
 import lombok.NonNull;
 
 import javax.servlet.ServletInputStream;
@@ -59,6 +60,36 @@ public abstract class BaseHttpServlet extends HttpServlet {
         final JsonType result = mapper.readValue(inputStream, clazz);
 
         return result;
+    }
+
+    protected void writeErrorObject(
+        @NonNull final Object errObj,
+        @NonNull final HttpServletResponse response,
+        @NonNull final Integer responseStatus
+    ) throws IOException
+    {
+        response.setStatus(responseStatus);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        final ObjectMapper om = new ObjectMapper();
+        final ServletOutputStream outputStream = response.getOutputStream();
+        om.writeValue(outputStream, errObj);
+    }
+
+    protected void writeErrorJson(
+        @NonNull final String errMsg,
+        @NonNull final HttpServletResponse response,
+        @NonNull final Integer responseStatus
+    ) throws IOException
+    {
+        response.setStatus(responseStatus);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        final ObjectMapper om = new ObjectMapper();
+        final ServletOutputStream outputStream = response.getOutputStream();
+
+        final ErrorMessageJson errorJson = new ErrorMessageJson(errMsg);
+        om.writeValue(outputStream, errorJson);
     }
 
     protected void writeError(

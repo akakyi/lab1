@@ -42,12 +42,12 @@ public class SchoolByCityController extends BaseHttpServlet {
                 final List<SchoolResponseJson> schools = this.schoolAdvancedGettingService.getSchoolsByCityId(idString);
                 this.writeResult(schools, resp);
             } catch (InvalidPayloadException e) {
-                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
             } catch (ResourceNotFound e) {
-                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
+                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
-            this.writeError(ValidationMessages.INVALID_PATH_VARIABLE, resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(ValidationMessages.INVALID_PATH_VARIABLE, resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 

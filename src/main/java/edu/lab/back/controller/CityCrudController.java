@@ -64,9 +64,9 @@ public class CityCrudController extends BaseHttpServlet {
                 final CityResponseJson city = this.cityCrudService.getById(idString);
                 this.writeResult(city, resp);
             } catch (InvalidPayloadException e) {
-                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
             } catch (ResourceNotFound e) {
-                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
+                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             final List<CityResponseJson> allCities = this.cityCrudService.getAll();
@@ -86,9 +86,9 @@ public class CityCrudController extends BaseHttpServlet {
             final CityResponseJson saved = this.cityCrudService.save(cityJson);
             this.writeResult(saved, resp);
         } catch (IOException e) {
-            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -104,9 +104,9 @@ public class CityCrudController extends BaseHttpServlet {
             final CityResponseJson updated = this.cityCrudService.update(cityJson);
             this.writeResult(updated, resp);
         } catch (IOException e) {
-            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -121,9 +121,9 @@ public class CityCrudController extends BaseHttpServlet {
             final CityResponseJson deleted = this.cityCrudService.deleteById(idString);
             this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (ResourceNotFound e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

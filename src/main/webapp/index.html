@@ -1,46 +1,40 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    </head>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <title>Lab1</title>
-    <body>
-        <section class="main">
-            <div id="table1">
-                    <div id="city_div" class="header">
-                            <h2 style="margin:5px">Город</h2>
-                            <input type="text" id="city_input" placeholder="Title...">
-                            <span onclick="newElement('city_')" class="addBtn">Add</span>
-                          </div>
-                          
-                          <ul id="city_UL">
-                          </ul>
-                          
-                         
-            </div>
+<link rel="stylesheet" type="text/css" href="style.css">
 
-            <div id="table2">
-                    <div id="school_div" class="header">
-                            <h2 style="margin:5px">Школа</h2>
-                            <input type="text" id="school_input" placeholder="Title...">
-                            <span onclick="newElement('school_')" class="addBtn">Add</span>
-                          </div>
-                          
-                          <ul id="school_UL">
-                          </ul>
-            </div>
+		
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<title>SchoolLab</title>
+</head>
+<body>
+<section class="wrapper">
+	<div class="school">
+	<p>Города</p>
+	<button class="addcity">Добавить город</button>
+	<button class="">Убрать город</button>
+	</div>
 
-            <div id="table3">
-                    <div id="student_div" class="header">
-                            <h2 style="margin:5px">Ученик</h2>
-                            <input type="text" id="student_input" placeholder="Title...">
-                            <span onclick="newElement('student_')" class="addBtn">Add</span>
-                          </div>
-                          
-                          <ul id="student_UL">
-                          </ul>
-            </div>
-        </section>
-    </body>
+	<div class="students">
+		<p>Школы</p>
+		<button class="addschool">Добавить школу</button>
+		<button class="">Редактировать школу</button>
+
+	</div>
+
+	
+	<div class="city">
+		<p>Ученики</p>
+		<button class="">Добавить ученика</button>
+		<button class="">Убрать ученика</button>
+	</div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"></script>
+<script src="script.js"></script>
+
+</body>
 </html>

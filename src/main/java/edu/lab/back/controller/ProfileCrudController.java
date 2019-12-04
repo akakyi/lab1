@@ -48,9 +48,9 @@ public class ProfileCrudController extends BaseHttpServlet {
                 final ProfileResponseJson profile = this.profileCrudService.getById(idString);
                 this.writeResult(profile, resp);
             } catch (InvalidPayloadException e) {
-                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
             } catch (ResourceNotFound e) {
-                this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
+                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             final List<ProfileResponseJson> allProfiles = this.profileCrudService.getAll();
@@ -70,9 +70,9 @@ public class ProfileCrudController extends BaseHttpServlet {
             final ProfileResponseJson saved = this.profileCrudService.save(profileJson);
             this.writeResult(saved, resp);
         } catch (IOException e) {
-            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -88,9 +88,9 @@ public class ProfileCrudController extends BaseHttpServlet {
             final ProfileResponseJson updated = this.profileCrudService.update(profileJson);
             this.writeResult(updated, resp);
         } catch (IOException e) {
-            this.writeError(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -105,9 +105,9 @@ public class ProfileCrudController extends BaseHttpServlet {
             final ProfileResponseJson deleted = this.profileCrudService.deleteById(idString);
             this.writeResult(deleted, resp);
         } catch (InvalidPayloadException e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (ResourceNotFound e) {
-            this.writeError(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
         }
     }
 }
