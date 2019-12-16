@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="style.css">
-
 		
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
@@ -9,24 +8,25 @@
 </head>
 <body>
 <section class="wrapper">
-	<div class="school">
+	<div id = "cityColumn" class="city">
 	<p>Города</p>
-	<button class="addcity">Добавить город</button>
-	<button class="">Убрать город</button>
+		<button id="addCityButton">Добавить город</button>
+		<button id="deleteCityButton">Убрать город</button>
+		<div id="cityPlaceholder"></div>
 	</div>
 
-	<div class="students">
+	<div id="schoolColumn">
 		<p>Школы</p>
-		<button class="addschool">Добавить школу</button>
-		<button class="">Редактировать школу</button>
-
+		<button id="addSchoolButton">Добавить школу</button>
+		<button id="deleteSchoolButton">Редактировать школу</button>
+		<div id="schoolPlaceholder"></div>
 	</div>
 
-	
-	<div class="city">
+	<div id="studentColumn">
 		<p>Ученики</p>
-		<button class="">Добавить ученика</button>
-		<button class="">Убрать ученика</button>
+		<button class="addStudentButton">Добавить ученика</button>
+		<button class="deleteStudentButton">Убрать ученика</button>
+		<div id="studentPlaceholder"></div>
 	</div>
 </section>
 
@@ -35,6 +35,7 @@
 integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 crossorigin="anonymous"></script>
 <script src="script.js"></script>
-
+<script src="render.js"></script>
+<script src="dataLoader.js"></script>
 </body>
 </html>

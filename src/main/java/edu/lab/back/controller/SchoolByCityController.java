@@ -2,7 +2,6 @@ package edu.lab.back.controller;
 
 import edu.lab.back.json.response.SchoolResponseJson;
 import edu.lab.back.service.SchoolAdvancedGettingService;
-import edu.lab.back.util.UrlPatterns;
 import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
 import edu.lab.back.util.exception.ResourceNotFound;
@@ -22,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class SchoolByCityController extends BaseHttpServlet {
 
-    public final static String CONTROLLER_BASE_URL = UrlPatterns.CRUD_BASE_URL + "/school_of_city";
+    public final static String CONTROLLER_BASE_URL = "/school_of_city";
 
     private static final String ID_PATH_VARIABLE_NAME = "id";
 

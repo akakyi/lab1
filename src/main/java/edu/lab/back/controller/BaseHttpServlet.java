@@ -15,11 +15,18 @@ import java.util.List;
 
 public abstract class BaseHttpServlet extends HttpServlet {
 
+    private static final String ENCODING = "UTF-8";
+
+    private static final String MIME_TYPE = "application/json";
+
     protected void writeStringResult(
         @NonNull final String res,
         @NonNull final HttpServletResponse response
     ) throws IOException
     {
+        response.setCharacterEncoding(ENCODING);
+        response.setContentType(MIME_TYPE);
+
         final ServletOutputStream outputStream = response.getOutputStream();
         outputStream.print(res);
         outputStream.close();
