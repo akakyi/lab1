@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implements SchoolDao {
 
-    private final static String SCHOOLS_BY_CITY_REQUEST = "select s from SchoolEntity s where s.city.id = :cityId";
+    private final static String SCHOOLS_BY_CITY_REQUEST = "select s from SchoolEntity s where s.city.id in :cityId";
 
     private final static String SCHOOLS_BY_IDS = "select s from SchoolEntity s where s.id = :ids";
 
