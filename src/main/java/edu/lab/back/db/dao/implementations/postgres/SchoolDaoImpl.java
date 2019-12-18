@@ -17,12 +17,19 @@ public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implement
 
     private final static String SCHOOLS_BY_CITY_REQUEST = "select s from SchoolEntity s where s.city.id = :cityId";
 
+    private final static String SCHOOLS_BY_IDS = "select s from SchoolEntity s where s.id = :ids";
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public List<SchoolEntity> getByIds(@NonNull final List<Long> ids) {
-        return null;
+        final TypedQuery<SchoolEntity> query
+            = this.entityManager.createQuery(SCHOOLS_BY_IDS, SchoolEntity.class);
+        query.setParameter("ids", ids);
+
+        final List<SchoolEntity> result = query.getResultList();
+        return result;
     }
 
     @Override
