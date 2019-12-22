@@ -4,7 +4,6 @@ import edu.lab.back.json.response.SchoolResponseJson;
 import edu.lab.back.service.SchoolAdvancedGettingService;
 import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
-import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NoArgsConstructor;
 
 import javax.inject.Inject;
@@ -42,8 +41,6 @@ public class SchoolByCityController extends BaseHttpServlet {
                 this.writeResult(schools, resp);
             } catch (InvalidPayloadException e) {
                 this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
-            } catch (ResourceNotFound e) {
-                this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
             }
         } else {
             this.writeErrorJson(ValidationMessages.INVALID_PATH_VARIABLE, resp, HttpServletResponse.SC_BAD_REQUEST);

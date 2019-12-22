@@ -5,9 +5,7 @@ import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.response.SchoolResponseJson;
 import edu.lab.back.service.SchoolAdvancedGettingService;
 import edu.lab.back.service.crud.implementations.BaseService;
-import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
-import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NonNull;
 
 import javax.ejb.Stateless;
@@ -28,13 +26,13 @@ public class SchoolAdvancedGettingServiceImpl extends BaseService implements Sch
     @Override
     public List<SchoolResponseJson> getSchoolsByCityId(
         @NonNull final String cityId
-    ) throws InvalidPayloadException, ResourceNotFound
+    ) throws InvalidPayloadException
     {
         final Long id = this.getId(cityId);
         final List<SchoolEntity> schools = this.schoolDao.getSchoolsByCityId(id);
-        if (schools.isEmpty()) {
-            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
-        }
+//        if (schools.isEmpty()) {
+//            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+//        }
 
         final List<SchoolResponseJson> result = schools.stream()
             .map(SchoolResponseJson::convert)
