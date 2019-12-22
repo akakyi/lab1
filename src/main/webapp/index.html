@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" type="text/css" href="style.css">
-		
+<link rel="stylesheet" type="text/css" href="lib/jquery-ui-1.12.1.custom/jquery-ui.css">
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-	<title>SchoolLab</title>
+    <title>SchoolLab</title>
 </head>
 <body>
 <section class="wrapper">
-	<div id = "cityColumn" class="city">
-	<p>Города</p>
-		<button id="addCityButton">Добавить город</button>
-		<div id="cityPlaceholder"></div>
-	</div>
+    <div id="cityColumn" class="city">
+        <p>Города</p>
+        <div id="cityPlaceholder"></div>
+    </div>
 
-	<div id="schoolColumn">
-		<p>Школы</p>
-		<div id="schoolPlaceholder"></div>
-	</div>
+    <div id="schoolColumn">
+        <p>Школы</p>
+        <div id="schoolPlaceholder"></div>
+    </div>
 
-	<div id="studentColumn">
-		<p>Ученики</p>
-		<div id="studentPlaceholder"></div>
-	</div>
+    <div id="studentColumn">
+        <p>Ученики</p>
+        <div id="studentPlaceholder"></div>
+    </div>
 </section>
 
+<div id="updateCityDialog" title="Обновить город">
+    <p>Введите имя города</p>
+    <input id="cityNameUpd" type="text" title="Введите имя города"/>
+</div>
+
+<div id="updateSchoolDialog" title="Обновить школу">
+    <p>Введите название школы</p>
+    <input id="schoolNameUpd" type="text" title="Введите название школы"/>
+</div>
+
+<div id="updateProfileDialog" title="Обновить профиль">
+    <p>Введите имя профиля</p>
+    <input id="profileNameUpd" type="text" title="Введите имя профиля"/>
+    <p>Введите возраст</p>
+    <input id="profileAgeUpd" type="number" min="0" title="Введите возраст"/>
+    <p>Выберете тип профиля</p>
+    <select id="profileTypeUpd" title="Тип профиля"></select>
+    <p>Введите класс</p>
+    <input id="classLevelUpd" type="text" title="Класс"/>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-crossorigin="anonymous"></script>
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
 <script src="script.js"></script>
 <script src="render.js"></script>
 <script src="dataLoader.js"></script>
+<script src="lib/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 </body>
 </html>
