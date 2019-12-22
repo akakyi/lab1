@@ -50,7 +50,7 @@ public class SchoolValidatorImpl implements SchoolValidator {
         if (cityId == null) {
             throw new InvalidPayloadException(ValidationMessages.INVALID_REQUEST_JSON);
         }
-        final CityEntity city = this.cityDao.getById(cityId, CityEntity.class);
+        final CityEntity city = this.cityDao.getById(cityId);
         if (city == null) {
             throw new InvalidPayloadException(ValidationMessages.REFERRED_ENTITY_NOT_EXIST);
         }

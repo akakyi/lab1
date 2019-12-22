@@ -107,6 +107,8 @@ public class CityCrudController extends BaseHttpServlet {
             this.writeErrorJson(ValidationMessages.INVALID_REQUEST_JSON, resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (InvalidPayloadException e) {
             this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
+        } catch (ResourceNotFound e) {
+            this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
         }
     }
 

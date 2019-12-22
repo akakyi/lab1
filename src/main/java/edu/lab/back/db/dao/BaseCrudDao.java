@@ -5,11 +5,11 @@ import java.util.List;
 //TODO мб заменить на абстрактный класс?
 public interface BaseCrudDao <EntityType, IdType> {
 
-    EntityType getById(IdType id, Class<EntityType> entityClass);
+    EntityType getById(IdType id);
 
-    List<EntityType> getAll(Class<EntityType> entityClass);
+    List<EntityType> getAll();
 
-    EntityType deleteById(IdType id, Class<EntityType> entityClass);
+    EntityType deleteById(IdType id);
 
     EntityType update(EntityType entity);
 

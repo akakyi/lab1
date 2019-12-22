@@ -5,7 +5,6 @@ import edu.lab.back.db.dao.SchoolDao;
 import edu.lab.back.db.entity.SchoolEntity;
 import edu.lab.back.json.request.ProfileRequestJson;
 import edu.lab.back.service.validator.ProfileValidator;
-import edu.lab.back.util.ProfileTypeEnum;
 import edu.lab.back.util.ValidationMessages;
 import edu.lab.back.util.exception.InvalidPayloadException;
 import lombok.NonNull;
@@ -46,6 +45,8 @@ public class ProfileValidatorImpl implements ProfileValidator {
         if (requestJson.getId() == null) {
             throw new InvalidPayloadException(ValidationMessages.INVALID_REQUEST_JSON);
         }
+
+        this.baseValidate(requestJson);
     }
 
     private void baseValidate(@NonNull final ProfileRequestJson requestJson) throws InvalidPayloadException {
@@ -54,7 +55,7 @@ public class ProfileValidatorImpl implements ProfileValidator {
             throw new InvalidPayloadException(ValidationMessages.INVALID_REQUEST_JSON);
         }
 
-        final ProfileTypeEnum profileType = requestJson.getProfileType();
+        final Integer profileType = requestJson.getProfileTypeId();
         if (profileType == null) {
             throw new InvalidPayloadException(ValidationMessages.INVALID_REQUEST_JSON);
         }
@@ -67,7 +68,7 @@ public class ProfileValidatorImpl implements ProfileValidator {
         if (schoolId == null) {
             throw new InvalidPayloadException(ValidationMessages.INVALID_REQUEST_JSON);
         }
-        final SchoolEntity school = this.schoolDao.getById(schoolId, SchoolEntity.class);
+        final SchoolEntity school = this.schoolDao.getById(schoolId);
         if (school == null) {
             throw new InvalidPayloadException(ValidationMessages.REFERRED_ENTITY_NOT_EXIST);
         }

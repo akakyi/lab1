@@ -12,17 +12,23 @@ import java.util.List;
 
 public abstract class BaseCrudDaoImpl<EntityType, IdType> implements BaseCrudDao<EntityType, IdType> {
     
+    private Class<EntityType> entityClass;
+    
+    protected BaseCrudDaoImpl(@NonNull final Class<EntityType> entityClass) {
+        this.entityClass = entityClass;
+    }
+    
     @Override
-    public EntityType getById(@NonNull final IdType id, @NonNull final Class<EntityType> entityClass) {
-        final EntityType city = this.getEntityManager().find(entityClass, id);
+    public EntityType getById(@NonNull final IdType id) {
+        final EntityType city = this.getEntityManager().find(this.entityClass, id);
         return city;
     }
 
     @Override
-    public List<EntityType> getAll(@NonNull final Class<EntityType> entityClass) {
+    public List<EntityType> getAll() {
         final CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
-        final CriteriaQuery<EntityType> query = criteriaBuilder.createQuery(entityClass);
-        final Root<EntityType> from = query.from(entityClass);
+        final CriteriaQuery<EntityType> query = criteriaBuilder.createQuery(this.entityClass);
+        final Root<EntityType> from = query.from(this.entityClass);
         final CriteriaQuery<EntityType> allSelection = query.select(from);
 
         final TypedQuery<EntityType> resultQuery = this.getEntityManager().createQuery(allSelection);
@@ -32,8 +38,8 @@ public abstract class BaseCrudDaoImpl<EntityType, IdType> implements BaseCrudDao
     }
 
     @Override
-    public EntityType deleteById(final IdType id, Class<EntityType> entityClass) {
-        final EntityType city = this.getById(id, entityClass);
+    public EntityType deleteById(final IdType id) {
+        final EntityType city = this.getById(id);
         if (city == null) {
             return null;
         }

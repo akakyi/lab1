@@ -16,6 +16,6 @@ public interface BaseCrudService<RequestJsonType extends JsonPojo, ResponseJsonT
 
     ResponseJsonType save(RequestJsonType cityJson);
 
-    ResponseJsonType update(RequestJsonType cityJson);
+    ResponseJsonType update(RequestJsonType cityJson) throws ResourceNotFound ;
 
 }

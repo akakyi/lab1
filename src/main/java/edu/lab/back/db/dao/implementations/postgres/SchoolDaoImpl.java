@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
-@NoArgsConstructor
 public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implements SchoolDao {
 
     private final static String SCHOOLS_BY_CITY_REQUEST = "select s from SchoolEntity s where s.city.id in :cityId";
@@ -21,6 +20,10 @@ public class SchoolDaoImpl extends BaseCrudDaoImpl<SchoolEntity, Long> implement
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public SchoolDaoImpl() {
+        super(SchoolEntity.class);
+    }
 
     @Override
     public List<SchoolEntity> getByIds(@NonNull final List<Long> ids) {

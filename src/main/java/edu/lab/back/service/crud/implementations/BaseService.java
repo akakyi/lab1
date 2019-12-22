@@ -15,4 +15,13 @@ public abstract class BaseService {
         }
     }
 
+    protected Integer getIntId(@NonNull final String idString) throws InvalidPayloadException {
+        try {
+            final int id = Integer.parseInt(idString);
+            return id;
+        } catch (NumberFormatException e) {
+            throw new InvalidPayloadException(ValidationMessages.INVALID_PATH_VARIABLE);
+        }
+    }
+
 }

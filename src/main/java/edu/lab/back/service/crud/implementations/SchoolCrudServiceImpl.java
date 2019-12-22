@@ -31,7 +31,7 @@ public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudServ
     @Override
     public SchoolResponseJson getById(final String idStr) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(idStr);
-        final SchoolEntity school = this.schoolDao.getById(id, SchoolEntity.class);
+        final SchoolEntity school = this.schoolDao.getById(id);
         if (school == null) {
             throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
         }
@@ -42,7 +42,7 @@ public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudServ
 
     @Override
     public List<SchoolResponseJson> getAll() {
-        final List<SchoolEntity> allSchools = this.schoolDao.getAll(SchoolEntity.class);
+        final List<SchoolEntity> allSchools = this.schoolDao.getAll();
         final List<SchoolResponseJson> result = allSchools.stream()
             .map(SchoolResponseJson::convert)
             .collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudServ
     ) throws InvalidPayloadException, ResourceNotFound
     {
         final Long id = this.getId(idString);
-        final SchoolEntity deletedEntity = this.schoolDao.deleteById(id, SchoolEntity.class);
+        final SchoolEntity deletedEntity = this.schoolDao.deleteById(id);
         if (deletedEntity == null) {
             throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
         }
@@ -82,9 +82,12 @@ public class SchoolCrudServiceImpl extends BaseService implements SchoolCrudServ
     }
 
     @Override
-    public SchoolResponseJson update(@NonNull final SchoolRequestJson schoolJson) {
+    public SchoolResponseJson update(@NonNull final SchoolRequestJson schoolJson) throws ResourceNotFound {
         final Long schoolId = schoolJson.getId();
-        final SchoolEntity school = this.schoolDao.getById(schoolId, SchoolEntity.class);
+        final SchoolEntity school = this.schoolDao.getById(schoolId);
+        if (school == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
 
         final CityEntity city = new CityEntity();
         city.setId(schoolJson.getCityId());

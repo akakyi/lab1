@@ -12,13 +12,16 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Stateless
-@NoArgsConstructor
 public class ProfileDaoImpl extends BaseCrudDaoImpl<ProfileEntity, Long> implements ProfileDao {
 
     private final static String PROFILES_BY_SCHOOL_REQUEST = "select p from ProfileEntity p where p.school.id = :schoolId";
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public ProfileDaoImpl() {
+        super(ProfileEntity.class);
+    }
 
     @Override
     protected EntityManager getEntityManager() {

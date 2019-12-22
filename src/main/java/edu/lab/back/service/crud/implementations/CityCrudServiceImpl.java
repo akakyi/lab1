@@ -31,7 +31,7 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
     @Override
     public CityResponseJson getById(@NonNull final String idString) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(idString);
-        final CityEntity city = this.cityDao.getById(id, CityEntity.class);
+        final CityEntity city = this.cityDao.getById(id);
         if (city == null) {
             throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
         }
@@ -43,7 +43,7 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
 
     @Override
     public List<CityResponseJson> getAll() {
-        final List<CityEntity> allCities = this.cityDao.getAll(CityEntity.class);
+        final List<CityEntity> allCities = this.cityDao.getAll();
         final List<CityResponseJson> allCitiesJson = allCities
             .stream()
             .filter(Objects::nonNull)
@@ -55,7 +55,7 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
     @Override
     public CityResponseJson deleteById(@NonNull final String idString) throws InvalidPayloadException, ResourceNotFound {
         final Long id = this.getId(idString);
-        final CityEntity deletedEntity = this.cityDao.deleteById(id, CityEntity.class);
+        final CityEntity deletedEntity = this.cityDao.deleteById(id);
         if (deletedEntity == null) {
             throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
         }
@@ -76,9 +76,12 @@ public class CityCrudServiceImpl extends BaseService implements CityCrudService 
     }
 
     @Override
-    public CityResponseJson update(@NonNull final CityRequestJson cityJson) {
+    public CityResponseJson update(@NonNull final CityRequestJson cityJson) throws ResourceNotFound {
         final Long cityId = cityJson.getId();
-        final CityEntity entity = this.cityDao.getById(cityId, CityEntity.class);
+        final CityEntity entity = this.cityDao.getById(cityId);
+        if (entity == null) {
+            throw new ResourceNotFound(ValidationMessages.RESOURCE_NOT_FOUND);
+        }
 
         entity.setName(cityJson.getName());
 

@@ -19,6 +19,10 @@ public class ProfileTypeDaoImpl extends BaseCrudDaoImpl<ProfileTypeEntity, Integ
     @PersistenceContext
     private EntityManager entityManager;
 
+    public ProfileTypeDaoImpl() {
+        super(ProfileTypeEntity.class);
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return this.entityManager;
