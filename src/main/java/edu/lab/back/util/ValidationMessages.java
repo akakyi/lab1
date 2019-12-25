@@ -10,4 +10,6 @@ public interface ValidationMessages {
 
     String RESOURCE_NOT_FOUND = "The resource required by identifier was not found";
 
+    String CONTRAIN_VIOLATION = "Data is binded!";
+
 }

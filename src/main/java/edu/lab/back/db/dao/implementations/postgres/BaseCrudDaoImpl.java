@@ -39,13 +39,13 @@ public abstract class BaseCrudDaoImpl<EntityType, IdType> implements BaseCrudDao
 
     @Override
     public EntityType deleteById(final IdType id) {
-        final EntityType city = this.getById(id);
-        if (city == null) {
+        final EntityType entity = this.getById(id);
+        if (entity == null) {
             return null;
         }
 
-        this.getEntityManager().remove(city);
-        return city;
+        this.getEntityManager().remove(entity);
+        return entity;
     }
 
     @Override

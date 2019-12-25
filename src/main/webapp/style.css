@@ -1,6 +1,6 @@
 html {
     color: white;
-    /*font-size: 24px;*/
+    font-size: 18px;
     font-weight: bold;
     background-color: #8EC5FC;
     background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
@@ -9,8 +9,6 @@ html {
 .wrapper {
     width: 1170px;
     margin: 0 auto;
-    background-color: #8EC5FC;
-    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,4 +30,22 @@ html {
 
 .delete {
     margin-left: 10px;
+}
+
+#addCityDialog {
+    display: none;
+
+}
+
+#addSchoolDialog{
+    display: none;
+}
+
+#addStudentDialog{
+    display: none;
+}
+
+#addCityButton{
+    margin-left: 10px;
+    margin-bottom: 10px;
 }

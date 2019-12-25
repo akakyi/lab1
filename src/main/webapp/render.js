@@ -1,9 +1,24 @@
 var selectedCityId;
 var selectedSchoolId;
 
-function drawCityes(cityes) {
+function removeProfiles() {
+    let col = $("#studentPlaceholder");
+    col.empty();
+}
+
+function removeCityes() {
     let col = $("#cityPlaceholder");
     col.empty();
+}
+
+function removeSchools() {
+    let col = $("#schoolPlaceholder");
+    col.empty();
+}
+
+function drawCityes(cityes) {
+    removeCityes();
+    let col = $("#cityPlaceholder");
 
     cityes.forEach((ct) => {
         drawCity(ct, col)
@@ -12,14 +27,14 @@ function drawCityes(cityes) {
 
 function drawCity(ct, col) {
     col.append($('<div/>', {
-            'class': 'cell'
+            'class': 'cell',
+            'id': 'ct' + ct.id
         }).append($('<div/>', {
             'class': 'cityName',
             'data-id': ct.id,
             'text': ct.name,
             'click': () => {
-                selectedCityId = ct.id;
-                getSchoolsByCityId(ct.id, drawSchools)
+                cityOnClick(ct.id)
             }
         })).append($('<button/>', {
             'class': 'edit',
@@ -39,9 +54,18 @@ function drawCity(ct, col) {
     );
 }
 
+function cityOnClick(id) {
+    if (selectedCityId == null) {
+        $("#addSchoolButton").show();
+    }
+    selectedCityId = id;
+    getSchoolsByCityId(id, drawSchools);
+}
+
 function drawSchools(schools) {
+    removeSchools();
+    removeProfiles();
     let col = $("#schoolPlaceholder");
-    col.empty();
 
     schools.forEach((schl) => {
         drawSchool(schl, col)
@@ -51,14 +75,13 @@ function drawSchools(schools) {
 function drawSchool(schl, col) {
     col.append($('<div/>', {
             'class': 'cell',
-
+            'id': 'schl' + schl.id
         }).append($('<div/>', {
             'class': 'schoolName',
             'data-id': schl.id,
             'text': schl.name,
             'click': () => {
-                selectedSchoolId = schl.id;
-                getProfilesBySchoolId(schl.id, drawProfiles)
+                schoolOnClick(schl.id)
             }
         })).append($('<button/>', {
             'class': 'edit',
@@ -78,10 +101,17 @@ function drawSchool(schl, col) {
     );
 }
 
+function schoolOnClick(id) {
+    if (selectedSchoolId == null) {
+        $("#addStudentButton").show();
+    }
+    selectedSchoolId = id;
+    getProfilesBySchoolId(id, drawProfiles)
+}
 
 function drawProfiles(students) {
+    removeProfiles();
     let col = $("#studentPlaceholder");
-    col.empty();
 
     students.forEach((stdnt) => {
         drawProfile(stdnt, col);
@@ -90,7 +120,8 @@ function drawProfiles(students) {
 
 function drawProfile(stdnt, col) {
     col.append($('<div/>', {
-            'class': 'cell'
+            'class': 'cell',
+            'id': 'stdnt' + stdnt.id
         }).append($('<div/>', {
             'class': 'studentName',
             'data-id': stdnt.id,
@@ -153,6 +184,10 @@ function editSchoolDialog(schl) {
 }
 
 function editStudentDialog(stdnt) {
+    getAllProfileTypes((data) => {
+        setProfileTypes($("#profileTypeUpd"), data)
+    });
+
     $("#profileNameUpd").val(stdnt.name);
     $("#profileAgeUpd").val(stdnt.age);
     $("#profileTypeUpd").val(stdnt.profile_type.id);
@@ -172,11 +207,11 @@ function initUpdateDialogs() {
     initUpdDialog(updSchoolDialog, sendEditedSchoolToServer);
 
     let updProfileDialog = $("#updateProfileDialog");
-    initUpdDialog(updProfileDialog, sendEditedStudentsToServer);
+    initUpdDialog(updProfileDialog, sendEditedProfileToServer);
 
-    getAllProfileTypes((data) => {
-        setProfileTypes($("#profileTypeUpd"), data)
-    })
+    // getAllProfileTypes((data) => {
+    //     setProfileTypes($("#profileTypeUpd"), data)
+    // })
 }
 
 function initUpdDialog(dialogElem, updateFunc) {
@@ -209,4 +244,68 @@ function setProfileType(optEl, type) {
         'value': type.id,
         'text': type.name
     }));
+}
+
+function addNewCityDialog() {
+    let misha = $("#addCityDialog");
+    misha.dialog({
+        buttons: {
+            "Добавить": () => {
+                //TODO валидация!!
+                addCity(drawNewCity)
+                misha.dialog("close");
+            },
+            "Отмена": () => {
+                misha.dialog("close");
+            }
+        }
+    });
+}
+
+function addNewSchoolDialog() {
+    let school = $("#addSchoolDialog");
+    school.dialog({
+        buttons: {
+            "Добавить": () => {
+                //TODO валидация!!
+                addSchool(selectedCityId, drawNewSchool);
+                school.dialog("close");
+            },
+            "Отмена": () => {
+                school.dialog("close");
+            }
+        }
+    });
+}
+
+function addNewStudentDialog() {
+    getAllProfileTypes((data) => setProfileTypes($("#addProfileType"), data));
+    let student = $("#addStudentDialog");
+    student.dialog({
+        buttons: {
+            "Добавить": () => {
+                //TODO валидация!!
+                addProfile(selectedSchoolId, drawNewProfile);
+                student.dialog("close");
+            },
+            "Отмена": () => {
+                student.dialog("close");
+            }
+        }
+    });
+}
+
+function drawNewCity(city) {
+    let col = $("#cityPlaceholder");
+    drawCity(city, col);
+}
+
+function drawNewSchool(schl) {
+    let col = $("#schoolPlaceholder");
+    drawSchool(schl, col);
+}
+
+function drawNewProfile(prof) {
+    let col = $("#studentPlaceholder");
+    drawProfile(prof, col);
 }

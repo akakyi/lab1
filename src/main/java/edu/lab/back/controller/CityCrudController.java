@@ -10,6 +10,7 @@ import edu.lab.back.util.exception.InvalidPayloadException;
 import edu.lab.back.util.exception.ResourceNotFound;
 import lombok.NoArgsConstructor;
 
+import javax.ejb.EJBException;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -126,6 +127,9 @@ public class CityCrudController extends BaseHttpServlet {
             this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_BAD_REQUEST);
         } catch (ResourceNotFound e) {
             this.writeErrorJson(e.getMessage(), resp, HttpServletResponse.SC_NOT_FOUND);
+        } catch (EJBException e) {
+            //Костыль, нужен более подробный ексепшн
+            this.writeErrorJson(ValidationMessages.CONTRAIN_VIOLATION, resp, HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
